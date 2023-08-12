@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="text-box">
+            <mat-card>
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <img src = "../assets/img/exchange2.png" alt="logo" height="130">
+                    <br>
+                    <h1>{{ title }}</h1>
+                    <p><b>Choose the currency and the amounts to get the exchange rate</b></p>                    
+                </div>
+                <br fxHide.xs>
+                <ng-template #status>
+                    <mat-card style="background-color: #ff7870; color:aliceblue;" >
+                        <h4>No hay conexion</h4>
+                    </mat-card>
+                </ng-template>
+            <form [formGroup]="miFormulario" *ngIf="!conn else status">
+                <div fxLayout = "row wrap" fxLayoutAlign="space-between stretch">
+                    <div fxLayout="column" fxFlex="40" fxFlex.xs="100" fxLayoutAlign="space-around start" fxLayoutAlign.xs="space-around center" >
+                        <div>
+                            <mat-form-field appearance="outline" fxFlex="50" fxFlex.xs="100">
+                                <mat-label>Moneda</mat-label>
+                                    <mat-select formControlName = 'tipo1'>
+                                        <mat-option *ngFor="let money of moneta" [value]="money.iso" (click) = "Convertir()">{{money.iso}}</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div>
+                            <button mat-raised-button (click) = "swap()">Swap</button>
+                        </div>
+
+                        <br>
+                        <div>
+                            <mat-form-field appearance="outline"  fxFlex="50" fxFlex.xs="100">
+                                <mat-label>Moneda</mat-label>
+                                    <mat-select formControlName = 'tipo2'>
+                                        <mat-option *ngFor="let money of moneta" [value]="money.iso" (click) = "Convertir()">{{money.iso}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div fxLayout="column" fxFlex="50" fxFlex.xs="100" fxLayoutAlign.xs="space-around center" fxLayoutAlign="start end" fxLayoutGap="10" fxLayoutGap.xs="0" > 
+                        <div>
+                            <mat-form-field class="example-full-width" appearance="outline"  style=" text-align: right; " fxFlex="50" fxFlex.xs="100" fxFlexOffset="50" fxFlexOffset.xs="0" >
+                                <mat-label>Valor</mat-label>
+                                <input matInput placeholder="Ex. 1" formControlName = 'monto' (change) = "Convertir()">
+                                <mat-hint align="end" *ngIf="validar('monto')" style="color: red;">El campo debe ser mayor que 0</mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <small style="color: rgba(95,186,167,255); font-weight: bold" *ngIf = "miFormulario.valid else temp">1 {{ miFormulario.value.tipo1 }} = {{ miFormulario.value.rate }} {{ miFormulario.value.tipo2 }}</small>
+                        <ng-template #temp>
+                            <p style="color: rgba(95,186,167,255); font-weight: bold" >$</p>
+                        </ng-template>
+                        <br>
+
+                        <div fxFlexAlign="center end" fxFlexOffset="10" fxFlexOffset.xs="0" style="color: rgba(95,186,167,255)">
+                            <p><b>{{ miFormulario.value.result }}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>
+
+
+
+
+
